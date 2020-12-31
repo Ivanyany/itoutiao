@@ -3,9 +3,6 @@ package com.ivan.itoutiao.utils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Ivan
  * @date 2020/12/31 12:13
