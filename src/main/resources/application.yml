@@ -1,26 +1,31 @@
-# ·şÎñ¶Ë¿Ú
+# æœåŠ¡ç«¯å£
 server:
+  ip: 192.168.0.101
   port: 8001
 
 spring:
-  # mysqlÊı¾İ¿âÁ¬½Ó
+  # mysqlæ•°æ®åº“è¿æ¥
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/itoutiao?serverTimezone=GMT%2B8
     username: root
     password: 123456
 
-  #·µ»ØjsonµÄÈ«¾ÖÊ±¼ä¸ñÊ½
+  #è¿”å›jsonçš„å…¨å±€æ—¶é—´æ ¼å¼
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
-#mybatisÈÕÖ¾
+#mybatisæ—¥å¿—
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#ÉèÖÃÈÕÖ¾¼¶±ğ
+#è®¾ç½®æ—¥å¿—çº§åˆ«
 logging:
   level:
     root: info
+
+#æ–‡ä»¶å­˜æ”¾çš„ä½ç½®
+file:
+  path: E:\filePath\

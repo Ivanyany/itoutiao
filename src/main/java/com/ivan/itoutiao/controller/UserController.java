@@ -68,4 +68,5 @@ public class UserController {
         }
         return CommonResult.fail().message("未查询到用户信息！");
     }
+
 }

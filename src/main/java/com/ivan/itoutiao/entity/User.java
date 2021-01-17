@@ -11,7 +11,7 @@ import lombok.Data;
  * @Description: 用户实体类
  */
 @Data
-public class User {
+public class User extends BaseEntity {
 
     @ApiModelProperty(value = "主键id")
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
@@ -35,6 +35,13 @@ public class User {
     @ApiModelProperty(value = "验证码")
     private String code;
 
+    @ApiModelProperty(value = "邮箱")
+    private String email;
+
+    @ApiModelProperty(value = "简介")
+    private String introduce;
+
     @ApiModelProperty(value = "token")
     private String token;
+
 }
