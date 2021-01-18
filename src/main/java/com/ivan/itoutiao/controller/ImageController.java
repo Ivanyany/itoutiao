@@ -109,9 +109,6 @@ public class ImageController {
             wrapper.eq("collect",collect);
         }
 
-        //按修改时间倒序排序
-        wrapper.orderByDesc("update_date");
-
         imageService.page(pageImage, wrapper);
 
         Map<String, Object> data = new HashMap<>();
@@ -144,6 +141,16 @@ public class ImageController {
             return CommonResult.success().message("操作成功！");
         }
         return CommonResult.fail().message("操作失败！");
+    }
+
+    @ApiOperation(value = "根据id删除图片素材")
+    @DeleteMapping("deleteImage/{imageId}")
+    public CommonResult deleteImage(@PathVariable("imageId")String imageId) {
+        boolean remove = imageService.removeById(imageId);
+        if (remove) {
+            return CommonResult.success().message("删除成功！");
+        }
+        return CommonResult.fail().message("删除失败！");
     }
 
 }

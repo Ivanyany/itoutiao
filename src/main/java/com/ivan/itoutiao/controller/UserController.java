@@ -69,4 +69,14 @@ public class UserController {
         return CommonResult.fail().message("未查询到用户信息！");
     }
 
+    @ApiOperation(value = "修改用户信息")
+    @PatchMapping("updateProfile")
+    public CommonResult updateProfile(@RequestBody User user) {
+        boolean update = userService.updateById(user);
+        if (update) {
+            return CommonResult.success().message("修改成功！");
+        }
+        return CommonResult.fail().message("修改失败！");
+    }
+
 }
