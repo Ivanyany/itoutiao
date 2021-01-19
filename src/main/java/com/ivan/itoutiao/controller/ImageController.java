@@ -32,7 +32,7 @@ public class ImageController {
     @Value("${file.path}")
     private String filePath;
 
-    //本机ip
+    //本服务使用的ip
     @Value("${server.ip}")
     private String ip;
 

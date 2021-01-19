@@ -1,14 +1,20 @@
 package com.ivan.itoutiao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ivan.itoutiao.entity.Image;
 import com.ivan.itoutiao.entity.User;
 import com.ivan.itoutiao.service.UserService;
 import com.ivan.itoutiao.utils.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.Date;
 
 /**
  * @author Ivan
@@ -20,6 +26,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @CrossOrigin
 public class UserController {
+
+    //文件存放的路径
+    @Value("${file.path}")
+    private String filePath;
+
+    //本服务使用的ip
+    @Value("${server.ip}")
+    private String ip;
+
+    //本服务使用的端口
+    @Value("${server.port}")
+    private String port;
 
     @Autowired
     UserService userService;
@@ -77,6 +95,33 @@ public class UserController {
             return CommonResult.success().message("修改成功！");
         }
         return CommonResult.fail().message("修改失败！");
+    }
+
+    @ApiOperation(value = "修改用户头像")
+    @PatchMapping("updatePhoto")
+    public CommonResult updatePhoto(@RequestPart("photo") MultipartFile file) {
+
+        //新文件名
+        String newFilename =  new Date().getTime() + ".png";
+        //目标文件
+        File descFile = new File(filePath  + newFilename);
+
+        //判断目标文件所在的目录是否存在
+        if (!descFile.getParentFile().exists()) {
+            //如果目标文件所在的目录不存在，则创建父目录
+            descFile.getParentFile().mkdirs();
+        }
+
+        String fileNetPath = "http://" + ip + ":" + port + "/file/" + newFilename;
+
+        try {
+            //将数据写入磁盘
+            file.transferTo(descFile);
+            return CommonResult.success().data(fileNetPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return CommonResult.fail().message("上传文件失败！");
     }
 
 }
