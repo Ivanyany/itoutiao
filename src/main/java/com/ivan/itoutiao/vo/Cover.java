@@ -15,9 +15,9 @@ import java.util.List;
 public class Cover {
 
     @ApiModelProperty(value = "封面类型(1单图  3三图  0无图  -1自动)")
-    private Integer type = 0;
+    private Integer type;
 
     @ApiModelProperty(value = "标题")
-    private List<String> images = Arrays.asList("https://www.jiuzhai.com/templates/rt_topaz/custom/images/311.jpg");
+    private List<String> images;
 
 }

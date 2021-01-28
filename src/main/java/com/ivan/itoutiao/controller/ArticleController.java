@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ivan.itoutiao.entity.Article;
 import com.ivan.itoutiao.service.ArticleService;
 import com.ivan.itoutiao.utils.CommonResult;
+import com.ivan.itoutiao.vo.Cover;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Ivan
@@ -59,15 +59,47 @@ public class ArticleController {
             wrapper.le("publish_date",endDate + " 23:59:59");
         }
         //按修改时间倒序排序
-        wrapper.orderByDesc("update_date");
+        wrapper.orderByDesc("create_date");
 
         articleService.page(pageArticle, wrapper);
 
+        //处理封面图片
+        List<Article> records = pageArticle.getRecords();
+        if (records.size() > 0) {
+            records.forEach(article -> getSetArticleCover(article));//设置封面数据
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("totalCount", pageArticle.getTotal());
-        data.put("results", pageArticle.getRecords());
+        data.put("results", records);
 
         return CommonResult.success().data(data);
+    }
+
+    @ApiOperation(value = "根据id查询文章")
+    @GetMapping("getArticleById/{articleId}")
+    public CommonResult getArticleById(@PathVariable("articleId")String articleId) {
+        Article article = articleService.getById(articleId);
+        if (article != null) {
+            //设置封面数据
+            getSetArticleCover(article);
+            return CommonResult.success().data(article);
+        }
+        return CommonResult.fail().message("查询失败！");
+    }
+
+    //查询时设置文章封面数据
+    public void getSetArticleCover(Article article){
+        //设置封面
+        Cover cover = new Cover();
+        cover.setType(article.getType());
+        if (article.getImageUrl()!=null) {
+            if (article.getImageUrl().contains(",")) {
+                cover.setImages(Arrays.asList(article.getImageUrl().split(",")));
+            } else {
+                cover.setImages(Arrays.asList(article.getImageUrl()));
+            }
+        }
+        article.setCover(cover);
     }
 
     @ApiOperation(value = "根据id删除文章")
@@ -94,21 +126,13 @@ public class ArticleController {
         article.setCreateDate(new Date());
         //修改时间
         article.setUpdateDate(new Date());
+        //设置文章封面数据
+        addOrUpdateSetArticleCover(article);
         boolean save = articleService.save(article);
         if (save) {
             return CommonResult.success().message("新增成功！");
         }
         return CommonResult.fail().message("新增失败！");
-    }
-
-    @ApiOperation(value = "根据id查询文章")
-    @GetMapping("getArticleById/{articleId}")
-    public CommonResult getArticleById(@PathVariable("articleId")String articleId) {
-        Article article = articleService.getById(articleId);
-        if (article != null) {
-            return CommonResult.success().data(article);
-        }
-        return CommonResult.fail().message("查询失败！");
     }
 
     @ApiOperation(value = "编辑文章")
@@ -123,11 +147,25 @@ public class ArticleController {
         }
         //修改时间
         article.setUpdateDate(new Date());
+        //设置文章封面数据
+        addOrUpdateSetArticleCover(article);
         boolean update = articleService.updateById(article);
+
         if (update) {
             return CommonResult.success().message("修改成功！");
         }
         return CommonResult.fail().message("修改失败！");
+    }
+
+    //新增/修改时设置文章封面数据
+    public void addOrUpdateSetArticleCover(Article article){
+        //文章封面
+        Cover cover = article.getCover();
+        article.setType(cover.getType());
+        if (cover != null && cover.getImages().size() > 0) {
+            String imageUrl = String.join(",", cover.getImages());
+            article.setImageUrl(imageUrl);
+        }
     }
 
     @ApiOperation(value = "修改文章评论状态")

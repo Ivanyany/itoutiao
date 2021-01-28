@@ -36,6 +36,12 @@ public class Article extends BaseEntity {
     @ApiModelProperty(value = "内容")
     private String content;
 
+    @ApiModelProperty(value = "封面类型(1单图  3三图  0无图)")
+    private Integer type;
+
+    @ApiModelProperty(value = "封面图片地址(多个地址用英文逗号分割)")
+    private String imageUrl;
+
     @ApiModelProperty(value = "评论状态，response_type=comment时返回(1开启评论  0关闭评论)")
     private Boolean commentStatus;
 
