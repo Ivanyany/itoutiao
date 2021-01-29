@@ -1,15 +1,13 @@
 # 服务端口
 server:
-#  ip: 47.99.172.18
-  ip: 192.168.1.25
+  ip: 192.168.0.103
   port: 8001
 
 spring:
   # mysql数据库连接
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://47.99.172.18:3306/itoutiao?serverTimezone=GMT%2B8
-    url: jdbc:mysql://192.168.1.25:3306/itoutiao?serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/itoutiao?serverTimezone=GMT%2B8
     username: root
     password: 123456
 
@@ -30,5 +28,4 @@ logging:
 
 #文件存放的位置
 file:
-  path: /home/filePath/
-#  path: E:\filePath\
+  path: E:\filePath\

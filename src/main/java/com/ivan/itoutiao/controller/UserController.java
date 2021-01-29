@@ -1,7 +1,6 @@
 package com.ivan.itoutiao.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ivan.itoutiao.entity.Image;
 import com.ivan.itoutiao.entity.User;
 import com.ivan.itoutiao.service.UserService;
 import com.ivan.itoutiao.utils.CommonResult;
@@ -80,7 +79,7 @@ public class UserController {
                 return CommonResult.success().data(user);
             }
         }
-        return CommonResult.fail().message("未查询到用户信息！").code(401);
+        return CommonResult.fail().message("未查询到用户信息！");
     }
 
     @ApiOperation(value = "修改用户信息")
@@ -94,7 +93,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户头像")
-    @PatchMapping("updatePhoto")
+    @PostMapping("updatePhoto")
     public CommonResult updatePhoto(@RequestPart("photo") MultipartFile file) {
 
         //新文件名

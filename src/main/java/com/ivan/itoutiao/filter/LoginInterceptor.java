@@ -29,6 +29,10 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
+        //解决跨域（浏览发请求之前会先OPTIONS请求，这个请求不会携带token参数）
+        if("OPTIONS".equals(request.getMethod().toUpperCase())) {
+            return true;
+        }
         //获取token
         String token = request.getHeader("Authorization");
         if (!StringUtils.isEmpty(token) && token.contains("Bearer")) {

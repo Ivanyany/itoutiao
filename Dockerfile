@@ -24,4 +24,5 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 # docker build --build-arg=JAR_FILE=itoutiao-0.0.1.jar -t itoutiao:0.0.1 .
 
 # 运行容器
+# docker run -d --name itoutiao -p 8001:8001 -e TZ=Asia/Shanghai -v /home/filePath/:/home/filePath/ itoutiao:0.0.1
 
