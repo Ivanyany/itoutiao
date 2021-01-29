@@ -51,20 +51,20 @@ public class Article extends BaseEntity {
     @ApiModelProperty(value = "粉丝评论数，response_type=comment时返回")
     private Integer fansCommentCount;
 
-    @ApiModelProperty(value = "评论数，response_type=statistic时返回")
-    private Integer commentCount;
+//    @ApiModelProperty(value = "评论数，response_type=statistic时返回")
+//    private Integer commentCount;
 
-    @ApiModelProperty(value = "阅读数，response_type=statistic时返回")
-    private Integer readCount;
+//    @ApiModelProperty(value = "阅读数，response_type=statistic时返回")
+//    private Integer readCount;
 
-    @ApiModelProperty(value = "点赞数，response_type=statistic时返回")
-    private Integer likeCount;
+//    @ApiModelProperty(value = "点赞数，response_type=statistic时返回")
+//    private Integer likeCount;
 
-    @ApiModelProperty(value = "转发数，response_type=statistic时返回")
-    private Integer repostCount;
+//    @ApiModelProperty(value = "转发数，response_type=statistic时返回")
+//    private Integer repostCount;
 
-    @ApiModelProperty(value = "收藏数，response_type=statistic时返回")
-    private Integer collectCount;
+//    @ApiModelProperty(value = "收藏数，response_type=statistic时返回")
+//    private Integer collectCount;
 
     @ApiModelProperty(value = "封面")
     private transient Cover cover = new Cover();

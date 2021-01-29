@@ -5,6 +5,7 @@ import com.ivan.itoutiao.entity.Image;
 import com.ivan.itoutiao.entity.User;
 import com.ivan.itoutiao.service.UserService;
 import com.ivan.itoutiao.utils.CommonResult;
+import com.ivan.itoutiao.utils.IvanTool;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,19 +73,14 @@ public class UserController {
     @ApiOperation(value = "获取用户信息")
     @GetMapping("profile")
     public CommonResult profile(@RequestHeader("Authorization") String Authorization) {
-        if (!StringUtils.isEmpty(Authorization) && Authorization.contains(" ")){
+        if (!StringUtils.isEmpty(Authorization) && Authorization.contains("Bearer")){
             String token = Authorization.split(" ")[1];
-            //查询条件
-            QueryWrapper<User> wrapper = new QueryWrapper<>();
-            if(!StringUtils.isEmpty(token)) {
-                wrapper.eq("token",token);
-            }
-            User user = userService.getOne(wrapper);
+            User user = IvanTool.getUserByToken(userService, token);
             if (user!=null){
                 return CommonResult.success().data(user);
             }
         }
-        return CommonResult.fail().message("未查询到用户信息！");
+        return CommonResult.fail().message("未查询到用户信息！").code(401);
     }
 
     @ApiOperation(value = "修改用户信息")
